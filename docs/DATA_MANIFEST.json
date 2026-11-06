@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0",
+  "releaseDate": "2026-11-06",
+  "targets": 5030,
+  "words": 20740,
+  "topics": 18,
+  "relations": 15527,
+  "etymologyEntries": 1913,
+  "ngslPriorityTargets": 1837,
+  "otherTargets": 3193,
+  "dataSha256": {
+    "ielts-book.json": "55f05c7fc0c1442ddfdbd4047a15d7fada2c1755a77723eab8c0fc34282485be",
+    "ielts-index.json": "3fed5fb69777f9bf52694b9e86273d93972ee7ab0d874484708bea50001d3a98",
+    "ielts-themes.json": "b4057570a4d853ac6ff73697d8eda92f5b466c3a81c7ae9d0dcf28fdeaacb224",
+    "ielts-examples.json": "7c6273356702fa9b6db73f728b887ce55557e42901d3d56e7f80d13a82c24031",
+    "ielts-etymology.json": "2f2f290d4d83b985c512e130cf3261c006f964bdbedfeb417eefc4a5aa060647",
+    "ielts-frequency.json": "99470420ede8e999b9d8db690b18479a442e1efbece6b8eb9690a22e23b4c542"
+  }
+}

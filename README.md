@@ -2,6 +2,8 @@
 
 **把英语单词连成树，一背背一片。**
 
+[![Build and data checks](https://github.com/lyle-alpha-sun/word-tree-1.0/actions/workflows/ci.yml/badge.svg)](https://github.com/lyle-alpha-sun/word-tree-1.0/actions/workflows/ci.yml)
+
 开源的英语词汇学习与词族思维导图工具。围绕一个目标词，同时查看可用词根、同根词、派生词、复数、三单、过去式和分词；点击任何单词继续探索，用一组有联系的词帮助记忆。
 
 **English vocabulary learning · Word family tree · Etymology · Mind map · IELTS vocabulary · Offline macOS app**

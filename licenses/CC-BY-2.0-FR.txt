@@ -1,0 +1,10 @@
+Creative Commons Attribution 2.0 France (CC BY 2.0 FR)
+
+Official license and legal code:
+https://creativecommons.org/licenses/by/2.0/fr/
+https://creativecommons.org/licenses/by/2.0/fr/legalcode
+
+This file records the applicable license URI; it is not a substitute license text.
+Tatoeba attribution and reuse guidance:
+https://en.wiki.tatoeba.org/articles/show/faq
+https://en.wiki.tatoeba.org/articles/show/terms-of-use-v1
