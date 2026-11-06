@@ -3,16 +3,6 @@ name: Validate public source
 on:
   push:
     branches: [main]
-    paths:
-      - word-tree-public-source.zip
-      - src/**
-      - public/**
-      - desktop/**
-      - scripts/**
-      - package.json
-      - package-lock.json
-      - tsconfig.json
-      - vite.config.ts
   pull_request:
   workflow_dispatch:
 
@@ -20,59 +10,11 @@ permissions:
   contents: read
 
 jobs:
-  bootstrap:
-    if: github.event_name == 'push' && github.actor == github.repository_owner && startsWith(github.event.head_commit.message, 'Publish cleaned Word Tree 1.0 source')
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
-        with:
-          ref: main
-      - name: Verify and unpack the audited public source archive
-        run: |
-          python3 - <<'PY'
-          import hashlib, pathlib, zipfile
-          archive = pathlib.Path('word-tree-public-source.zip')
-          assert hashlib.sha256(archive.read_bytes()).hexdigest() == '0b233e321579d8fd2769f9c497f5a26aa60fcfb4f206f67d79bc07df478d7971'
-          allowed_dirs = {'src', 'public', 'desktop', 'scripts', 'docs', 'licenses', 'data-sources', '.github'}
-          allowed_files = {'README.md','README.en.md','LICENSE','THIRD_PARTY_NOTICES.md','CONTRIBUTING.md','package.json','package-lock.json','tsconfig.json','vite.config.ts','index.html','.gitignore','.gitattributes'}
-          with zipfile.ZipFile(archive) as z:
-              for entry in z.infolist():
-                  p = pathlib.PurePosixPath(entry.filename)
-                  assert not p.is_absolute() and '..' not in p.parts
-                  assert p.parts[0] in allowed_dirs or entry.filename in allowed_files
-                  assert not any(x in {'node_modules','backups','coordination','research','release','build','.git'} or x.startswith('._') for x in p.parts)
-                  assert p.parts[:2] != ('.github','workflows')
-                  target = pathlib.Path(*p.parts)
-                  target.parent.mkdir(parents=True, exist_ok=True)
-                  target.write_bytes(z.read(entry))
-          PY
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
-        with:
-          node-version: 24
-      - run: npm ci
-      - run: npm run check:data
-      - run: npm run build
-      - name: Publish verified source with a private-safe bot identity
-        run: |
-          git config user.name 'Word Tree release bot'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git rm word-tree-public-source.zip
-          git add --all
-          git commit -m 'feat: publish Word Tree 1.0 source, data and documentation'
-          git push origin HEAD:main
-
   verify:
-    needs: bootstrap
-    if: always() && (needs.bootstrap.result == 'success' || needs.bootstrap.result == 'skipped')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
-        with:
-          ref: ${{ github.ref }}
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: 24
@@ -80,3 +22,4 @@ jobs:
       - run: npm ci
       - run: npm run check:data
       - run: npm run build
+      - run: npm audit --audit-level=high
